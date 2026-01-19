@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        tenant: ${{needs.preparemetrix.outputs.envmetrix}}
+        tenant: ${{ fromJson(needs.preparemetrix.outputs.envmetrix) }}
     with:
       cname: ${{matrix.tenant.cname}}
       environment: ${{matrix.tenant.env}}
