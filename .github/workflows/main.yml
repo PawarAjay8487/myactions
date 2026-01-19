@@ -41,3 +41,15 @@ jobs:
     with:
       cname: ${{matrix.tenant.cname}}
       environment: ${{matrix.tenant.env}}
+
+  finalstep:
+    needs: [ executeMetrix ]
+    runs-on: windows-latest
+    steps:
+    - name: finalstep
+      uses: ./.github/myactions
+      with:
+        sampleinput: "This is final step after executing metrix"
+    - name: print output from custom action
+      run: |
+        Write-Host "Output from custom action is: ${{steps.finalstep.outputs.sampleoutput}}"

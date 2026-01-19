@@ -1,0 +1,22 @@
+name: this is test action
+description: 'this is test action description'
+inputs:
+  sampleinput:
+    description: 'this is sample input'
+    required: true
+    default: 'defaultvalue'
+outputs:
+  sampleoutput:
+    description: 'this is sample output'
+    value: ${{ steps.samplestep.outputs.sampleoutput }}
+runs:
+  using: 'composite'
+  steps:
+  - name: Sample Step
+    id: samplestep
+    shell: powershell
+    run: |
+      Write-Host "This is a sample action"
+      Write-Host "Input value is: ${{ inputs.sampleinput }}"
+      $outputvalue = "Output based on input: ${{ inputs.sampleinput }}"
+      echo "sampleoutput=$outputvalue" >> $ENV:GITHUB_OUTPUT  
