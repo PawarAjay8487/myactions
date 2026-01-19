@@ -5,7 +5,7 @@ on:
     inputs:
       envdetails:
         description: provide env details
-        type: boolean
+        type: string
         required: true
 jobs:
   preparemetrix:
