@@ -26,7 +26,9 @@ jobs:
             }
         }
 
-        $envmetrix = $envs | ConvertTo-Json >> GITHUB_OUTPUT
+        $metrixJson = $($envmetrix = $envs | ConvertTo-Json)
+        write-host $metrixJson
+        echo "$envmetrix=$metrixJson" >> GITHUB_OUTPUT
     outputs:
       envmetrix: ${{ steps.preparemetrixstep.outputs.envmetrix}}
 
