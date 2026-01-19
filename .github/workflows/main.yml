@@ -14,7 +14,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: prepare tenant metrix
-      id: preparemetrix
+      id: preparemetrixstep
       shell: powershell
       run: |
         $envobj = $ENV:envdetails | convertfrom-json
@@ -28,7 +28,7 @@ jobs:
 
         $envmetrix = $envs | ConvertTo-Json >> GITHUB_OUTPUT
     outputs:
-      envmetrix: ${{ steps.preparemetrix.outputs.envmetrix}}
+      envmetrix: ${{ steps.preparemetrixstep.outputs.envmetrix}}
 
   executeMetrix:
     needs: preparemetrix
@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        tenant: ${{needs.executeMetrix.outputs.envmetrix}}
+        tenant: ${{needs.preparemetrix.outputs.envmetrix}}
     with:
       cname: ${{matrix.tenant.cname}}
       environment: ${{matrix.tenant.env}}
