@@ -1,0 +1,42 @@
+name: main workflow
+run-name: main workflow
+on:
+  workflow_dispatch:
+    inputs:
+      envdetails:
+        description: provide env details
+        type: boolean
+        required: true
+jobs:
+  preparemetrix:
+    env:
+      envdetails: ${{inputs.envdetails}}
+    runs-on: windows-latest
+    steps:
+    - name: prepare tenant metrix
+      id: preparemetrix
+      shell: powershell
+      run: |
+        $envobj = $ENV:envdetails | convertfrom-json
+        $envs = @()
+        foreach($instance in $envobj) {
+            $envs += [pscustomobject]@{
+                cname = $instance.cname
+                env = $instance.env
+            }
+        }
+
+        $envmetrix = $envs | ConvertTo-Json >> GITHUB_OUTPUT
+    outputs:
+      envmetrix: ${{ steps.preparemetrix.outputs.envmetrix}}
+
+  executeMetrix:
+    needs: preparemetrix
+    uses: .github/workflows/callableworkflow.yml@main
+    strategy:
+      fail-fast: true
+      matrix:
+        tenant: ${{needs.executeMetrix.outputs.envmetrix}}
+    with:
+      cname: ${{matrix.tenant.cname}}
+      env: ${{matrix.tenant.env}}

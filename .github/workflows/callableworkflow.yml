@@ -1,0 +1,31 @@
+name: this is callable workflow
+run-name: this is callable workflow for cname ${{ inputs.cname }}
+on:
+  workflow_call:
+    inputs:
+      cname:
+        description: provide cname
+        required: true
+        type: string
+      environment:
+        description: provide environment for the cname
+        required: true
+        type: string
+    outputs:
+      environmentdescription:
+        value: ${{jobs.printenvironment.outputs.environmentdescription}}
+
+jobs:
+  printenvironment:
+    runs-on: windows-latest
+    env:
+      cname: ${{inputs.cname}}
+      environment: ${{inputs.environment}}
+    steps:
+    - name: print environment
+      id: printenv
+      shell: powershell
+      run: |
+        $environmentdescription = "Cname $Env:Cname is of type: $Env:environment" >> GITHUB_OUTPUT
+    outputs:
+      environmentdescription: ${{steps.printenv.outputs.environmentdescription}}
