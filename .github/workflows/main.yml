@@ -47,7 +47,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: finalstep
-      uses: ./.github/myactions
+      uses: ./.github/myactions/action1/action.yml
       with:
         sampleinput: "This is final step after executing metrix"
     - name: print output from custom action
