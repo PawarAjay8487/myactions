@@ -27,8 +27,7 @@ jobs:
         }
 
         $metrixJson = $($envs | ConvertTo-Json -compress)
-        write-host $metrixJson
-        echo "$envmetrix=$metrixJson" >> GITHUB_OUTPUT
+        echo "envmetrix=$metrixJson" >> GITHUB_OUTPUT
     outputs:
       envmetrix: ${{ steps.preparemetrixstep.outputs.envmetrix}}
 
