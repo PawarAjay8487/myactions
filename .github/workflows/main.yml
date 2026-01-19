@@ -39,4 +39,4 @@ jobs:
         tenant: ${{needs.executeMetrix.outputs.envmetrix}}
     with:
       cname: ${{matrix.tenant.cname}}
-      env: ${{matrix.tenant.env}}
+      environment: ${{matrix.tenant.env}}
