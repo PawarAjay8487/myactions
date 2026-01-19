@@ -32,7 +32,7 @@ jobs:
 
   executeMetrix:
     needs: preparemetrix
-    uses: .github/workflows/callableworkflow.yml@main
+    uses: ./.github/workflows/callableworkflow.yml@main
     strategy:
       fail-fast: true
       matrix:
